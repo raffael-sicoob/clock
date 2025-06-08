@@ -1,0 +1,377 @@
+type: collection.insomnia.rest/5.0
+name: ponto
+meta:
+  id: wrk_09da28aa802e42128f6daa61784baa75
+  created: 1749396319866
+  modified: 1749396319866
+  description: ""
+collection:
+  - url: "{{ _.base_url }}/auth/login"
+    name: Login
+    meta:
+      id: req_a497c4cc7c194b7db0d0b2415b809854
+      created: 1718711022186
+      modified: 1749397359676
+      isPrivate: false
+      description: ""
+      sortKey: -1718711022186
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"user": "06335805383",
+        	"password": "pobpe@"
+        	
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_d0c50b132e064f8f909eb5d69a806f16
+      - name: User-Agent
+        value: insomnia/9.2.0
+        id: pair_f7a1e2f361084c87a045833c5f3d29cc
+    authentication:
+      type: bearer
+      token: ""
+    scripts:
+      preRequest: ""
+      afterResponse: >-
+        const res = insomnia.response.headers.find(header => header.key ==
+        'Set-Authorization')
+
+
+        insomnia.baseEnvironment.set('token', res.value);
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/auth/isFirstLogin"
+    name: Is FirstLogin
+    meta:
+      id: req_a2e1f8fe08b748e1bb3ac4e25fcb3335
+      created: 1718711182599
+      modified: 1749397582799
+      isPrivate: false
+      description: ""
+      sortKey: -1718711182599
+    method: GET
+    parameters:
+      - id: pair_c37f9685ab49400aaa7631d92ec43c4a
+        name: employeeId
+        value: "06335805383"
+        description: ""
+    headers:
+      - name: User-Agent
+        value: insomnia/9.2.0
+        id: pair_a9efbd2b2765477fbc7a0ce2ec87a490
+      - id: pair_6a25793f768c49debc9d081695af7ff3
+        name: Authorization
+        value: "{{token}}"
+        description: ""
+        disabled: false
+    authentication:
+      type: none
+    scripts:
+      preRequest: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/timesheet/clockingsGeolocation/%7Bcurrent%7D"
+    name: New Request
+    meta:
+      id: req_2132dde5c18342759a20b558c38e0cf1
+      created: 1718711752328
+      modified: 1749397615561
+      isPrivate: false
+      description: ""
+      sortKey: -1718711752328
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"date": "2024-06-18T15:00:00.000Z",
+        	"hour": 32393270,
+        	"latitude": "0",
+        	"longitude": "0",
+        	"timezone": 0,
+        	"address": "l-location-unavailable"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_a4108c3d3ae348f585731ec463677cb0
+      - name: User-Agent
+        value: insomnia/9.2.0
+        id: pair_d0d3c42eab464afc885540b93e078d41
+      - id: pair_e7f1b0bf8bd04b57a47b36948fbbc1eb
+        name: Authorization
+        value: "{{token}}"
+        description: ""
+        disabled: false
+    authentication:
+      type: none
+    scripts:
+      preRequest: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/timesheet/clockingsGeolocation/currentTime/0/0/"
+    name: time
+    meta:
+      id: req_1fc10800744b4a09b0fd9b7397420d22
+      created: 1718711986234
+      modified: 1749397546017
+      isPrivate: false
+      description: ""
+      sortKey: -1718711102392.5
+    method: GET
+    parameters:
+      - id: pair_c37f9685ab49400aaa7631d92ec43c4a
+        name: employeeId
+        value: "06335805383"
+        description: ""
+    headers:
+      - name: User-Agent
+        value: insomnia/9.2.0
+        id: pair_2f158e05546a4d4982047300d0ae3ff5
+      - id: pair_d5a3babb40f14576b0f6837dae929c3d
+        name: Authorization
+        value: "{{token}}"
+        description: ""
+        disabled: false
+    authentication:
+      type: none
+    scripts:
+      preRequest: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/auth/isLogged"
+    name: Is Logged
+    meta:
+      id: req_9211b1ff33ed49e6bfe5e7f76a3f23a0
+      created: 1718818117209
+      modified: 1749397484009
+      isPrivate: false
+      description: ""
+      sortKey: -1718711142495.75
+    method: GET
+    parameters:
+      - id: pair_c37f9685ab49400aaa7631d92ec43c4a
+        name: employeeId
+        value: "06335805383"
+        description: ""
+    headers:
+      - name: User-Agent
+        value: insomnia/9.2.0
+        id: pair_c2bf0cee5a38494d916651f0cc430142
+      - id: pair_a4ad0ba28fe54819b2c717fb5e2e5a20
+        name: Authorization
+        value: "{{token}}"
+        description: ""
+        disabled: false
+    authentication:
+      type: none
+    scripts:
+      preRequest: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url
+      }}/timesheet/clockings/%7Bcurrent%7D/?initPeriod=2025-06-06T00:00:00.000Z\
+      &endPeriod=2025-06-06T00:00:00.000Z&isDivergent=false&id="
+    name: List All
+    meta:
+      id: req_5ce02095065b4412805d76228b8b52a3
+      created: 1718887961620
+      modified: 1749397846482
+      isPrivate: false
+      description: ""
+      sortKey: -1718887961620
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/9.2.0
+        id: pair_ebea6a218fb34a9aa396aaaa5073ab69
+      - id: pair_951cce066738415a93e38829ff1909a3
+        name: Authorization
+        value: "{{token}}"
+        description: ""
+        disabled: false
+    authentication:
+      type: none
+    scripts:
+      preRequest: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/timesheet/clockings/%7Bcurrent%7D"
+    name: Edit clocks
+    meta:
+      id: req_8fe536fbf4e644b1b64fd1a4a765ff12
+      created: 1718888895291
+      modified: 1749396744172
+      isPrivate: false
+      description: ""
+      sortKey: -1718888895291
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"date": "2024-06-03T03:00:00.000Z",
+        	"justify": ".",
+        	"reason": "01",
+        	"clockings": [
+        		{
+        			"date": "2024-06-03T03:00:00.000Z",
+        			"direction": "exit",
+        			"origin": "manual",
+        			"referenceDate": "2024-06-03T03:00:00.000Z",
+        			"sequence": 1,
+        			"hour": 43200000,
+        			"timezone": 180
+        		},
+        		{
+        			"date": "2024-06-03T03:00:00.000Z",
+        			"direction": "entry",
+        			"origin": "manual",
+        			"referenceDate": "2024-06-03T03:00:00.000Z",
+        			"sequence": 2,
+        			"hour": 46800000,
+        			"timezone": 180
+        		},
+        		{
+        			"date": "2024-06-03T03:00:00.000Z",
+        			"direction": "exit",
+        			"origin": "manual",
+        			"referenceDate": "2024-06-03T03:00:00.000Z",
+        			"sequence": 2,
+        			"hour": 66000000,
+        			"timezone": 180
+        		}
+        	]
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/9.2.0
+    scripts:
+      preRequest: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/timesheet/clockingsGeolocation/currentTime/0/0/"
+    name: timed
+    meta:
+      id: req_f1b17e8fd7784c2989842e0f2cd693cf
+      created: 1718909508103
+      modified: 1749397499452
+      isPrivate: false
+      description: ""
+      sortKey: -1718711062289.25
+    method: GET
+    parameters:
+      - id: pair_c37f9685ab49400aaa7631d92ec43c4a
+        name: employeeId
+        value: "06335805383"
+        description: ""
+    headers:
+      - name: User-Agent
+        value: insomnia/9.2.0
+        id: pair_31aea2d1322346419ac453feec7c5b13
+      - id: pair_fd27ca234ee84a25b68f3afb46572113
+        name: Authorization
+        value: "{{token}}"
+        description: ""
+        disabled: false
+    authentication:
+      type: none
+    scripts:
+      preRequest: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/timesheet/clockingsReasonTypes/%7Bcurrent%7D"
+    name: List Reason
+    meta:
+      id: req_4c3adde1b174437a9b02dfec8b1233b9
+      created: 1722258620206
+      modified: 1749396731402
+      isPrivate: false
+      description: ""
+      sortKey: -1722258620206
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/9.3.2
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBKd3RQdWJsaWNLZXlGb3IyNTYifQ.eyJpc3MiOiJUT1RWUy1BRFZQTC1GV0pXVCIsInVzciI6Im1ldXJoIiwiaWF0IjoxNzIyMjU4MzMzLCJ1c2VyaWQiOiIiLCJleHAiOjE3MjIyNjE5MzMsImtleSI6IjAwMDA4MnwwNjMzNTgwNTM4M3wwMDAyNTh8MjAyNDA3Mjl8MDEwMjAxfC5GLiIsInJlZnJlc2hfdG9rZW4iOiJOVG9EdnRxQzA2akRQS2EyV1lPaXNQbFNoci1jakZRY0lGTU10NkNhVzQ4bmJHT0lzbVd4bHdRRVRydEc4MkdjQWEzS0pyQzBmOWtPcVZwYjVJWkZ5V29xZnZUNjU4V0txczJSc0dmT1d1N0FUY1RJekFwQmphYWJiS3dpS0VkS0FmUFgwOE1FaFJZNnlDTzlMRUxJSTBrNmRJMHhsaF95Z2FmTE1ISFBjMG04a3BoUEdTSGVJeDRLRUVubjFzVzdhLUhfenNqbjVEWFRyS3E2N0xETlZWYlpTQjhNenFYM2s3ejFITHdpVWs3TFJJTXpNdFRrNGpxQ0VHUWthYjVNRlBEWjZzajBCdVc3QUxCMmhUZDJTdyJ9.CfO_5P3nPChAV8BP62hNKQEggMFLmz8VxhCP_LNuQyE
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_b2e3c03ccece4162a7285603a03155ba
+    created: 1718710990333
+    modified: 1749397363772
+environments:
+  name: Base Environment
+  meta:
+    id: env_6ac2b1a1ecc040e58e0a469070bb5fab
+    created: 1718710990331
+    modified: 1749397363773
+    isPrivate: false
+  data:
+    base_url: https://meurh.segurosicoob.com.br:8400/restmeurh01
+    token: Bearer
+      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBKd3RQdWJsaWNLZXlGb3IyNTYifQ.eyJpc3MiOiJUT1RWUy1BRFZQTC1GV0pXVCIsInVzciI6Im1ldXJoIiwiaWF0IjoxNzQ5Mzk3MzU2LCJ1c2VyaWQiOiIiLCJleHAiOjE3NDk0MDA5NTYsImtleSI6IjAwMDA4MnwwNjMzNTgwNTM4M3wwMDAyNTh8MjAyNTA2MDh8MDEwMjAxfC5GLiIsInJlZnJlc2hfdG9rZW4iOiJOVG9EdnRxQzA2akRQS2EyV1lPaXNQbFNoci1jakZRTUlGSU1tYXlhVzQ4bmJGMkktV2FmZ3dRSFRxTUs4MkdjQWEzS0pyQ2tmOWdPaDFaYjVJWkZ5WG9RTl9mVTg4V0pxdG1Sc0dmT1d1N0FUY1RJekFwQmphYWJiS3dpS0VkS0FmUFgwOE1FaFJZNnlDTzlMRUxJSTBrNmRJMHhsaF95Z2FmTE1ISFBjMG04a3BoUEdTSGVJeDRLRUVubjFzVzdhLUhfenNqbjVEWFRyS3E2N0xETlZWYmRTQjhNd1pQWmk3ejFETHdpVWs3TFJJTXpNdFRrNGpxQ0VHUWthYjVNRlBEWjZzajBCdVc3QUxCMmhUZDJTdyJ9.vas-99ZAG2CCJcDrYOEOTJJfIM9iasudH_TRBTNv5n4
