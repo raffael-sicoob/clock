@@ -15,7 +15,7 @@ type User struct {
 }
 
 
-func CreateUser(user User) error {
+func CreateUser(user User)  {
 	db.Update(func(tx *bolt.Tx) error {
 		bucket := tx.Bucket([]byte(ClockBucket))
 		if bucket == nil {
@@ -23,15 +23,20 @@ func CreateUser(user User) error {
 		}
 		userBytes, err := json.Marshal(user)
 		if err != nil {
-			return err
+			fmt.Println("Error marshalling user")
 		}
 		err = bucket.Put([]byte("user"), userBytes)
-		return err
+		if err != nil {
+			fmt.Println("Error saving user")
+		}
+		
+		fmt.Println("User created")
+		return nil
 	})
-	return nil
+	
 }
 
-func GetUser() (User, error) {
+func GetUser() (User) {
 	var user User
 	err := db.View(func(tx *bolt.Tx) error {
 		bucket := tx.Bucket([]byte(ClockBucket))
@@ -44,11 +49,14 @@ func GetUser() (User, error) {
 		}
 		err := json.Unmarshal(userBytes, &user)
 		if err != nil {
-			return err
+			return fmt.Errorf("error unmarshalling user")
 		}
 		return nil
 	})
-	return user, err
+	if err != nil {
+		fmt.Println("Error getting user")
+	}
+	return user
 }
 
 

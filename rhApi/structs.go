@@ -5,3 +5,12 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
+
+type IsLoggedResponse struct {
+	IsLogged bool `json:"isLogged"`
+}
+
+
+type RequestClocking struct {
+	
+}

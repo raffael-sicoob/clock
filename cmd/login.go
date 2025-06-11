@@ -25,11 +25,8 @@ to quickly create a Cobra application.`,
 
 	Run: func(cmd *cobra.Command, args []string) {
 
-			user, err := database.GetUser()
-			if err != nil {
-				fmt.Println("Error getting user", err)
-				return
-			}
+			user := database.GetUser()
+		
 
 			if user.Username != "" {
 				fmt.Println("User already logged in with name", user.Name)
@@ -39,11 +36,7 @@ to quickly create a Cobra application.`,
 			username, _ := cmd.Flags().GetString("username")
 			password, _ := cmd.Flags().GetString("password")
 			name, _ := cmd.Flags().GetString("name")
-			token, err := rhapi.Login(username, password)
-			if err != nil {
-				fmt.Println("Error logging in", err)
-				return
-			}
+			token := rhapi.Login(username, password)
 
 			if name == "" {
 				name = username
