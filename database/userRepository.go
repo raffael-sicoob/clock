@@ -72,7 +72,7 @@ func SaveToken(token string) error {
 	return nil
 }
 
-func GetToken() (string, error) {
+func GetToken() (string) {
 	var token string
 	err := db.View(func(tx *bolt.Tx) error {
 		bucket := tx.Bucket([]byte(ClockBucket))
@@ -86,5 +86,10 @@ func GetToken() (string, error) {
 		token = string(tokenBytes)
 		return nil
 	})
-	return token, err
+
+	if err != nil {
+		fmt.Println("Error getting token", err)
+	}
+
+	return token
 }

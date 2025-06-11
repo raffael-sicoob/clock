@@ -4,8 +4,8 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/raffael-sicoob/clock/database"
+	rhapi "github.com/raffael-sicoob/clock/rhApi"
 	"github.com/spf13/cobra"
 )
 
@@ -24,7 +24,9 @@ var punchCmd = &cobra.Command{
 	
 	`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("punch called")
+		user := database.GetUser()
+		token := database.GetToken()
+		rhapi.RequestClocking(user, token)
 	},
 }
 
