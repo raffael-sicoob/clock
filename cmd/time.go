@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/fatih/color"
 	"github.com/raffael-sicoob/clock/database"
 	rhapi "github.com/raffael-sicoob/clock/rhApi"
 	"github.com/raffael-sicoob/clock/utils"
@@ -40,9 +41,11 @@ to quickly create a Cobra application.`,
 			os.Exit(1)
 		}
 
+		colorGreenBold := color.New(color.FgGreen, color.Bold).SprintFunc()
+
 		formattedTime := utils.FormatTime(dataTime.ActualDate, dataTime.ActualTime)
 
-		fmt.Println("Actual time: ", formattedTime)
+		fmt.Println("Actual time: 🕑", colorGreenBold(formattedTime))
 	},
 }
 
