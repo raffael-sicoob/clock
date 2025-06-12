@@ -7,9 +7,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/fatih/color"
 	"github.com/raffael-sicoob/clock/database"
-	"github.com/raffael-sicoob/clock/utils"
 )
 
 func Login(user string, password string) string{
@@ -121,7 +119,7 @@ func GetTime(user database.User, token string) ResponseGetTime {
 }
 
 
-func RequestClocking( user database.User, token string)  {
+func RequestClocking( user database.User, token string) ResponseGetTime  {
 	newToken := GetValidToken(user, token)
 
 	currentDateTime := GetTime(user, newToken)
@@ -138,13 +136,13 @@ func RequestClocking( user database.User, token string)  {
 	json, err := json.Marshal(body)
 	if err != nil {
 		fmt.Println("Error marshalling body", err)
-		return
+		return ResponseGetTime{}
 	}
 
 	req, err := http.NewRequest("POST", PostClocking, bytes.NewBuffer(json))
 	if err != nil {
 		fmt.Println("Error creating request", err)
-		return
+		return ResponseGetTime{}
 	}
 
 	req.Header.Add("Authorization", newToken)
@@ -154,17 +152,14 @@ func RequestClocking( user database.User, token string)  {
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Error sending request", err)
-		return
+		return ResponseGetTime{}
 	}
 
 	defer res.Body.Close()
 
 
-	colorGreenBold := color.New(color.FgGreen, color.Bold).SprintFunc()
+	return currentDateTime
 
-	formattedCurrentDateTime := utils.FormatTime(currentDateTime.ActualDate, currentDateTime.ActualTime)
-
-	fmt.Println("Clocking requested: 🕑", colorGreenBold(formattedCurrentDateTime))
 }
 
 

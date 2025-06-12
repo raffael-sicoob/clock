@@ -8,9 +8,12 @@ import (
 	"github.com/raffael-sicoob/clock/database"
 )
 
+func init() {
+	database.InitDB()
+}
+
 func main() {
 
-	database.InitDB()
 	defer database.CloseDB()
 	cmd.Execute()
 	
