@@ -7,7 +7,9 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/fatih/color"
 	"github.com/raffael-sicoob/clock/database"
+	"github.com/raffael-sicoob/clock/utils"
 )
 
 func Login(user string, password string) string{
@@ -158,8 +160,11 @@ func RequestClocking( user database.User, token string)  {
 	defer res.Body.Close()
 
 
-	fmt.Println("Clocking requested")
-	
+	colorGreenBold := color.New(color.FgGreen, color.Bold).SprintFunc()
+
+	formattedCurrentDateTime := utils.FormatTime(currentDateTime.ActualDate, currentDateTime.ActualTime)
+
+	fmt.Println("Clocking requested: 🕑", colorGreenBold(formattedCurrentDateTime))
 }
 
 
