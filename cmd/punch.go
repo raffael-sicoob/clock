@@ -4,8 +4,13 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
+	"os"
+
+	"github.com/fatih/color"
 	"github.com/raffael-sicoob/clock/database"
 	rhapi "github.com/raffael-sicoob/clock/rhApi"
+	"github.com/raffael-sicoob/clock/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -26,7 +31,19 @@ var punchCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		user := database.GetUser()
 		token := database.GetToken()
-		rhapi.RequestClocking(user, token)
+		currentDateTime := rhapi.RequestClocking(user, token)
+		
+
+		if currentDateTime.ActualDate == "" {
+			fmt.Println("Error getting time")
+			os.Exit(1)
+		}
+
+		colorGreenBold := color.New(color.FgGreen, color.Bold).SprintFunc()
+
+		formattedCurrentDateTime := utils.FormatTime(currentDateTime.ActualDate, currentDateTime.ActualTime)
+
+		fmt.Println("Clocking requested: 🕑", colorGreenBold(formattedCurrentDateTime))
 	},
 }
 
