@@ -8,14 +8,12 @@ import (
 	"os"
 
 	"github.com/raffael-sicoob/clock/database"
-	rhapi "github.com/raffael-sicoob/clock/rhApi"
-	"github.com/raffael-sicoob/clock/utils"
 	"github.com/spf13/cobra"
 )
 
-// timeCmd represents the time command
-var timeCmd = &cobra.Command{
-	Use:   "time",
+// loginInfoCmd represents the loginInfo command
+var loginInfoCmd = &cobra.Command{
+	Use:   "info",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -23,39 +21,26 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	PreRun: func(cmd *cobra.Command, args []string)  {
-		user := database.GetUser()
-		if user.Username == "" {
-			fmt.Println("user not found, please run 'clock login'")
-			os.Exit(1)
-		}
-	},
 	Run: func(cmd *cobra.Command, args []string) {
 		user := database.GetUser()
-		token := database.GetToken()
-		dataTime := rhapi.GetTime(user, token)
-
-		if dataTime.ActualDate == "" {
-			fmt.Println("error getting time")
+		if user.Username == "" {
+			fmt.Printf("user not found, please run 'clock login'\n")
 			os.Exit(1)
 		}
-
-		formattedTime := utils.FormatTime(dataTime.ActualDate, dataTime.ActualTime)
-
-		fmt.Println("Actual time: ", formattedTime)
+		fmt.Printf("Name: %s; Username: %s\n", user.Name, user.Username)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(timeCmd)
+	loginCmd.AddCommand(loginInfoCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// timeCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// loginInfoCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// timeCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// loginInfoCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

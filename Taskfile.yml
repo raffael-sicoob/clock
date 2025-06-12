@@ -1,0 +1,14 @@
+version: 3
+
+tasks:
+  build:prod:
+    cmds:
+      - go build -o ~/.local/bin/clock .
+
+  build:dev:
+    cmds:
+      - go build -o clock .
+
+  test:
+    cmds:
+      - go run .

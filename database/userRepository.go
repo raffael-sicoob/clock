@@ -55,6 +55,7 @@ func GetUser() (User) {
 	})
 	if err != nil {
 		fmt.Println("Error getting user")
+		return User{}
 	}
 	return user
 }
