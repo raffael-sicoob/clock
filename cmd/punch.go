@@ -6,7 +6,9 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"time"
 
+	"github.com/briandowns/spinner"
 	"github.com/fatih/color"
 	"github.com/raffael-sicoob/clock/database"
 	rhapi "github.com/raffael-sicoob/clock/rhApi"
@@ -31,8 +33,13 @@ var punchCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		user := database.GetUser()
 		token := database.GetToken()
+
+		spinner := spinner.New(spinner.CharSets[14], 100*time.Millisecond, spinner.WithColor("blue"))
+		spinner.Suffix = " Requesting clocking..."
+		spinner.Start()
+
 		currentDateTime := rhapi.RequestClocking(user, token)
-		
+		spinner.Stop()
 
 		if currentDateTime.ActualDate == "" {
 			fmt.Println("Error getting time")

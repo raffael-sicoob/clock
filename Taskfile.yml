@@ -3,11 +3,11 @@ version: 3
 tasks:
   build:prod:
     cmds:
-      - go build -o ~/.local/bin/clock .
+      - go build -ldflags "-w" -o ~/.local/bin/clock .
 
   build:dev:
     cmds:
-      - go build -o clock .
+      - go build -ldflags "-w" -o clock .
 
   test:
     cmds:

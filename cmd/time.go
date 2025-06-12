@@ -6,7 +6,9 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"time"
 
+	"github.com/briandowns/spinner"
 	"github.com/fatih/color"
 	"github.com/raffael-sicoob/clock/database"
 	rhapi "github.com/raffael-sicoob/clock/rhApi"
@@ -33,8 +35,14 @@ to quickly create a Cobra application.`,
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		user := database.GetUser()
+    spinner := spinner.New(spinner.CharSets[14], 100*time.Millisecond, spinner.WithColor("blue"))
+		spinner.Suffix = " Getting time..."
+		spinner.Start()
+		
 		token := database.GetToken()
 		dataTime := rhapi.GetTime(user, token)
+
+		spinner.Stop()
 
 		if dataTime.ActualDate == "" {
 			fmt.Println("error getting time")
