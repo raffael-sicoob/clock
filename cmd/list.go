@@ -47,6 +47,10 @@ var listCmd = &cobra.Command{
 		 listClockings := rhapi.GetClockings(user, token, startDate, endDate)
 		 spinner.Stop()
 		 
+		 if len(listClockings.Clockings) == 0 {
+			fmt.Println("No clockings found")
+			return
+		 }
 
 		 colorCyanBold := color.New(color.FgCyan, color.Bold).SprintFunc()
 		 for _, clocking := range listClockings.Clockings {
