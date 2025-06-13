@@ -4,14 +4,14 @@ import "time"
 
 
 
-func FormatTime(currentDate string, currentTime uint32) string {
+func FormatTime(currentDate string, currentTime uint32) (string, time.Time) {
 	parsedDate, err := time.Parse(time.RFC3339, currentDate)
 	if err != nil {
-		return ""
+		return "", time.Time{}
 	}
 
 	duration := time.Duration(currentTime) * time.Millisecond
 
 	newDate := time.Date(parsedDate.Year(), parsedDate.Month(), parsedDate.Day(), 0,0,0,0, time.Local).Add(duration)
-	return newDate.Format("02/01/2006 15:04:05")
+	return newDate.Format("02/01/2006 15:04:05"), newDate
 }

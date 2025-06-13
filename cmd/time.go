@@ -19,13 +19,10 @@ import (
 // timeCmd represents the time command
 var timeCmd = &cobra.Command{
 	Use:   "time",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Get the current time",
+	Long: `Get the current time.
+	
+	`,
 	PreRun: func(cmd *cobra.Command, args []string)  {
 		user := database.GetUser()
 		if user.Username == "" {
@@ -51,7 +48,7 @@ to quickly create a Cobra application.`,
 
 		colorGreenBold := color.New(color.FgGreen, color.Bold).SprintFunc()
 
-		formattedTime := utils.FormatTime(dataTime.ActualDate, dataTime.ActualTime)
+		formattedTime,_ := utils.FormatTime(dataTime.ActualDate, dataTime.ActualTime)
 
 		fmt.Println("Actual time: 🕑", colorGreenBold(formattedTime))
 	},

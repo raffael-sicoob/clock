@@ -16,5 +16,4 @@ func main() {
 
 	defer database.CloseDB()
 	cmd.Execute()
-	
 }

@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"time"
 
+	"github.com/fatih/color"
 	"github.com/raffael-sicoob/clock/database"
 )
 
@@ -162,6 +164,59 @@ func RequestClocking( user database.User, token string) ResponseGetTime  {
 
 }
 
+func GetClockings(user database.User, token string, initPeriod string, endPeriod string) ResponseGetClockings {
+	// validate format of initPeriod and endPeriod
+
+	initPeriodDate, errParseInitPeriod := time.Parse("2006-01-02", initPeriod)
+	
+
+	endPeriodDate, errParseEndPeriod := time.Parse("2006-01-02", endPeriod)
+	
+	if errParseInitPeriod != nil || errParseEndPeriod != nil {
+		fmt.Println( "❌ ",color.RedString("Error parsing period, please use format YYYY-MM-DD"))
+		return ResponseGetClockings{}
+	}
+
+	if initPeriodDate.After(endPeriodDate) {
+		fmt.Println( "❌ ",color.RedString("Init period is after end period"))
+		return ResponseGetClockings{}
+	}
+
+
+	validToken := GetValidToken(user, token)
+
+	params := url.Values{}
+	params.Add("initPeriod", initPeriodDate.Format("2006-01-02"))
+	params.Add("endPeriod", endPeriodDate.Format("2006-01-02"))
+
+	url := GetPeriodClockings + "?" + params.Encode()
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		fmt.Println("Error creating request", err)
+		return ResponseGetClockings{}
+	}
+	
+	req.Header.Add("Authorization", validToken)
+	
+	client := &http.Client{}
+	res, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Error sending request", err)
+		return ResponseGetClockings{}
+	}
+	
+	defer res.Body.Close()
+
+	var response ResponseGetClockings
+	err = json.NewDecoder(res.Body).Decode(&response)
+	if err != nil {
+		fmt.Println("Error decoding response", err)
+		return ResponseGetClockings{}
+	}
+
+	return response
+}
 
 
 

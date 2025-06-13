@@ -48,9 +48,9 @@ var punchCmd = &cobra.Command{
 
 		colorGreenBold := color.New(color.FgGreen, color.Bold).SprintFunc()
 
-		formattedCurrentDateTime := utils.FormatTime(currentDateTime.ActualDate, currentDateTime.ActualTime)
+		formattedCurrentDateTime, _ := utils.FormatTime(currentDateTime.ActualDate, currentDateTime.ActualTime)
 
-		fmt.Println("Clocking requested: 🕑", colorGreenBold(formattedCurrentDateTime))
+		fmt.Println("Clocking registered: 🕑", colorGreenBold(formattedCurrentDateTime))
 	},
 }
 
