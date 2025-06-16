@@ -219,7 +219,7 @@ func GetClockings(user database.User, token string, initPeriod string, endPeriod
 }
 
 
-func GetBalanceSummary(user database.User, token string, initPeriod string, endPeriod string)  ResponseGetBalanceSummary {
+func GetBalanceSummary(user database.User, token string, initPeriod string, endPeriod string)  *ResponseGetBalanceSummary {
 
 	initPeriodDate, errParseInitPeriod := time.Parse("2006-01-02", initPeriod)
 	
@@ -228,12 +228,12 @@ func GetBalanceSummary(user database.User, token string, initPeriod string, endP
 	
 	if errParseInitPeriod != nil || errParseEndPeriod != nil {
 		fmt.Println( "❌ ",color.RedString("Error parsing period, please use format YYYY-MM-DD"))
-		return ResponseGetBalanceSummary{}
+		return nil
 	}
 
 	if initPeriodDate.After(endPeriodDate) {
 		fmt.Println( "❌ ",color.RedString("Init period is after end period"))
-		return ResponseGetBalanceSummary{}
+		return nil
 	}
 
 	validToken := GetValidToken(user, token)
@@ -247,7 +247,7 @@ func GetBalanceSummary(user database.User, token string, initPeriod string, endP
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		fmt.Println("Error creating request", err)
-		return ResponseGetBalanceSummary{}
+		return nil
 	}
 	
 	req.Header.Add("Authorization", validToken)
@@ -256,7 +256,7 @@ func GetBalanceSummary(user database.User, token string, initPeriod string, endP
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Error sending request", err)
-		return ResponseGetBalanceSummary{}
+		return nil
 	}
 
 	defer res.Body.Close()
@@ -265,8 +265,8 @@ func GetBalanceSummary(user database.User, token string, initPeriod string, endP
 	err = json.NewDecoder(res.Body).Decode(&response)
 	if err != nil {
 		fmt.Println("Error decoding response", err)
-		return ResponseGetBalanceSummary{}
+		return nil
 	}
 
-	return response
+	return &response
 }

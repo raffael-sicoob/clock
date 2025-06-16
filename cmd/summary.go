@@ -41,16 +41,20 @@ var summaryCmd = &cobra.Command{
 		balanceSummary := rhapi.GetBalanceSummary(user, token, startDate, endDate)
 		spinner.Stop()
 
+		if balanceSummary == nil {
+			fmt.Println("Error getting balance summary")
+			os.Exit(1)
+		}
 
-		colorGreenBold := color.New(color.FgGreen, color.Bold).SprintFunc()
+
 
 
 		fmt.Println(strings.Repeat(color.HiBlackString("-"), 40))
 		fmt.Println("Balance Summary Period: ", color.CyanString(startDate), " to ", color.CyanString(endDate))
 		fmt.Println(strings.Repeat(color.HiBlackString("-"), 40))
-		fmt.Println("Previous Balance: ", strings.Repeat(" ", 12), colorGreenBold(utils.FormatDuration(balanceSummary.Previous)))
-		fmt.Println("Current Balance: ", strings.Repeat(" ", 13 ), colorGreenBold(utils.FormatDuration(balanceSummary.Current)))
-		fmt.Println("Next Balance: ", strings.Repeat(" ", 16), colorGreenBold(utils.FormatDuration(balanceSummary.Next)))
+		fmt.Println("Previous Balance: ", strings.Repeat(" ", 12), printColorSummary(balanceSummary.Previous))
+		fmt.Println("Current Balance: ", strings.Repeat(" ", 13 ), printColorSummary(balanceSummary.Current))
+		fmt.Println("Next Balance: ", strings.Repeat(" ", 16), printColorSummary(balanceSummary.Next))
 	},
 }
 
@@ -61,5 +65,20 @@ func init() {
 	startDayOfMonth := time.Now().AddDate(0, 0, -time.Now().Day() + 1).Format("2006-01-02")
 	summaryCmd.Flags().StringP("start", "s", startDayOfMonth, "Start date (YYYY-MM-DD)")
 	summaryCmd.Flags().StringP("end", "e", currentDate, "End date (YYYY-MM-DD)")
+	
+}
+
+
+func printColorSummary(duration int32) string{
+	colorGreenBold := color.New(color.FgGreen, color.Bold).SprintFunc()
+	colorRedBold := color.New(color.FgRed, color.Bold).SprintFunc()
+
+	if duration > 0 {
+		return colorGreenBold(utils.FormatDuration(duration))
+	} 
+
+	return colorRedBold(utils.FormatDuration(duration))
+
+
 	
 }

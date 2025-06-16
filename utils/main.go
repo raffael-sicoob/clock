@@ -19,7 +19,7 @@ func FormatTime(currentDate string, currentTime uint32) (string, time.Time) {
 }
 
 
-func FormatDuration(duration uint32) string {
+func FormatDuration(duration int32) string {
 
 	parsedDuration := time.Duration(duration) * time.Millisecond
 

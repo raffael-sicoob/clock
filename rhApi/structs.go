@@ -53,7 +53,7 @@ type ResponseGetClockings struct {
 }
 
 type ResponseGetBalanceSummary struct {
-	Previous uint32 `json:"previous"`
-	Current uint32 `json:"current"`
-	Next uint32 `json:"next"`
+	Previous int32 `json:"previous"`
+	Current int32 `json:"current"`
+	Next int32 `json:"next"`
 }
