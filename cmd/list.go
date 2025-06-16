@@ -51,17 +51,16 @@ var listCmd = &cobra.Command{
 			fmt.Println("No clockings found")
 			return
 		 }
-
 		 colorCyanBold := color.New(color.FgCyan, color.Bold).SprintFunc()
 		 for _, clocking := range listClockings.Clockings {
 			_, dateClocking := utils.FormatTime(clocking.Date, clocking.Hour)
 
 			fmt.Println(
 				dateClocking.Format("02/01/2006"),
-				"--------", 
+				color.HiBlackString("--------"), 
 				"🕑",
 				colorCyanBold(dateClocking.Format("15:04:05")),
-					"--------", 
+					color.HiBlackString("--------"), 
 				colorDirection(clocking.Direction))
 		 }
 
@@ -76,15 +75,6 @@ func init() {
 	listCmd.Flags().StringP("end", "e", currentDate, "End date (YYYY-MM-DD)")
 
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// listCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 

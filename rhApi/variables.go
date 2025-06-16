@@ -9,4 +9,5 @@ const (
 	GetPeriodClockings = BaseUrl + "/timesheet/clockings/currentTime/"
 	PostClocking = BaseUrl + "/timesheet/clockingsGeolocation/currentTime"
 	GetReasons = BaseUrl + "/timesheet/clockingsReasonTypes/currentTime"
+	GetBalanceSummaryUrl = BaseUrl + "/timesheet/balanceSummary/currentTime"
 )

@@ -51,3 +51,9 @@ type ResponseGetClockings struct {
 	EndPeriod  string     `json:"endPeriod"`
 	Clockings  []Clocking `json:"clockings"`
 }
+
+type ResponseGetBalanceSummary struct {
+	Previous uint32 `json:"previous"`
+	Current uint32 `json:"current"`
+	Next uint32 `json:"next"`
+}
