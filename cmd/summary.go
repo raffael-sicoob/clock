@@ -75,10 +75,10 @@ func printColorSummary(duration int32) string{
 
 	if duration > 0 {
 		return colorGreenBold(utils.FormatDuration(duration))
-	} 
+	} else if duration == 0 {
+		return utils.FormatDuration(duration)
+	}
 
 	return colorRedBold(utils.FormatDuration(duration))
-
-
 	
 }
