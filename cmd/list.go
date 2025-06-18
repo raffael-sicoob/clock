@@ -47,6 +47,10 @@ var listCmd = &cobra.Command{
 		 listClockings := rhapi.GetClockings(user, token, startDate, endDate)
 		 spinner.Stop()
 		 
+		 if listClockings == nil {
+			return
+		 }
+
 		 if len(listClockings.Clockings) == 0 {
 			fmt.Println("No clockings found")
 			return
