@@ -18,7 +18,7 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Aliases: []string{"l"},
+	Aliases: []string{"ls"},
 	Short: "List all clockings for an range of dates",
 	Long: `List all clockings for an range of dates.
 	Default range is today.

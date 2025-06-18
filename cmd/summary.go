@@ -20,8 +20,8 @@ import (
 // summaryCmd represents the summary command
 var summaryCmd = &cobra.Command{
 	Use:   "summary",
-	Short: "Get the balance summary",
-	Long: `Get the balance summary between two dates.`,
+	Aliases: []string{"s"},
+	Short: "Get the balance summary between two dates",
 	Run: func(cmd *cobra.Command, args []string) {
 		startDate, _ := cmd.Flags().GetString("start")
 		endDate, _ := cmd.Flags().GetString("end")
