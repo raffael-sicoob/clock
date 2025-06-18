@@ -52,8 +52,11 @@ var listCmd = &cobra.Command{
 			return
 		 }
 		 colorCyanBold := color.New(color.FgCyan, color.Bold).SprintFunc()
-		 for _, clocking := range listClockings.Clockings {
+		 for i, clocking := range listClockings.Clockings {
 			_, dateClocking := utils.FormatTime(clocking.Date, clocking.Hour)
+			if i > 0 && listClockings.Clockings[i-1].Date != clocking.Date {
+				fmt.Println(color.HiBlackString("--------"))
+			}
 
 			fmt.Println(
 				dateClocking.Format("02/01/2006"),
