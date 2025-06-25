@@ -1,28 +1,26 @@
 package rhapi
 
 type LoginRequest struct {
-	User string `json:"user"`
+	User     string `json:"user"`
 	Password string `json:"password"`
 }
-
 
 type IsLoggedResponse struct {
 	IsLogged bool `json:"isLogged"`
 }
 
-
 type RequestClockingBody struct {
-	Date string `json:"date"`
-	Hour uint32 `json:"hour"`
-	Latitude string `json:"latitude"`
+	Date      string `json:"date"`
+	Hour      int64  `json:"hour"`
+	Latitude  string `json:"latitude"`
 	Longitude string `json:"longitude"`
-	Timezone uint8 `json:"timezone"`
-	Address string `json:"address"`
+	Timezone  uint8  `json:"timezone"`
+	Address   string `json:"address"`
 }
 
 type ResponseGetTime struct {
 	ActualDate string `json:"actualDate"`
-	ActualTime uint32 `json:"actualTime"`
+	ActualTime int64  `json:"actualTime"`
 }
 
 // Structs para resposta de GetClockings
@@ -38,7 +36,7 @@ type ClockingStatus struct {
 type Clocking struct {
 	ID        string         `json:"id"`
 	Date      string         `json:"date"`      // Data do ponto (campo necessário)
-	Hour      uint32         `json:"hour"`      // Horário em segundos (campo necessário) 
+	Hour      int64          `json:"hour"`      // Horário em segundos (campo necessário)
 	Direction string         `json:"direction"` // "entry" ou "exit" (campo necessário)
 	Origin    string         `json:"origin"`
 	Status    ClockingStatus `json:"status"`
@@ -54,6 +52,21 @@ type ResponseGetClockings struct {
 
 type ResponseGetBalanceSummary struct {
 	Previous int32 `json:"previous"`
-	Current int32 `json:"current"`
-	Next int32 `json:"next"`
+	Current  int32 `json:"current"`
+	Next     int32 `json:"next"`
+}
+
+type EditClockingsBody struct {
+	Date          string `json:"date"`
+	Origin        string `json:"origin"`
+	ReferenceDate string `json:"referenceDate"`
+	Hour          int64  `json:"hour"`
+	Timezone      int32  `json:"timezone"`
+}
+
+type RequestEditClockingBody struct {
+	Date      string              `json:"date"`
+	Justify   string              `json:"justify"`
+	Reason    string              `json:"reason"`
+	Clockings []EditClockingsBody `json:"clockings"`
 }

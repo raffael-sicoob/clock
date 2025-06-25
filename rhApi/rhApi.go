@@ -12,11 +12,10 @@ import (
 	"github.com/raffael-sicoob/clock/database"
 )
 
-func Login(user string, password string) string{
-	
+func Login(user string, password string) string {
 
 	loginRequest := LoginRequest{
-		User: user,
+		User:     user,
 		Password: password,
 	}
 
@@ -26,7 +25,6 @@ func Login(user string, password string) string{
 		return ""
 	}
 
-
 	res, err := http.Post(LoginUrl, "application/json", bytes.NewBuffer(json))
 	if err != nil {
 		fmt.Println("Error sending request", err)
@@ -34,14 +32,12 @@ func Login(user string, password string) string{
 	}
 
 	defer res.Body.Close()
-	
+
 	token := res.Header.Get("Set-Authorization")
 	return token
 }
 
-
-func IsLogged(username string, token string) bool{
-
+func IsLogged(username string, token string) bool {
 
 	params := url.Values{}
 	params.Add("employeeId", username)
@@ -75,12 +71,11 @@ func IsLogged(username string, token string) bool{
 	return isLoggedResponse.IsLogged
 }
 
-func GetValidToken(user database.User, token string) string{
+func GetValidToken(user database.User, token string) string {
 
 	if IsLogged(user.Username, token) {
 		return token
 	}
-	
 
 	return Login(user.Username, user.Password)
 }
@@ -107,7 +102,7 @@ func GetTime(user database.User, token string) ResponseGetTime {
 		fmt.Println("Error sending request", err)
 		return ResponseGetTime{}
 	}
-	
+
 	defer res.Body.Close()
 
 	var response ResponseGetTime
@@ -120,19 +115,18 @@ func GetTime(user database.User, token string) ResponseGetTime {
 	return response
 }
 
-
-func RequestClocking( user database.User, token string) ResponseGetTime  {
+func RequestClocking(user database.User, token string) ResponseGetTime {
 	newToken := GetValidToken(user, token)
 
 	currentDateTime := GetTime(user, newToken)
 
 	body := RequestClockingBody{
-		Date: currentDateTime.ActualDate,
-		Hour: currentDateTime.ActualTime,
-		Latitude: "0",
+		Date:      currentDateTime.ActualDate,
+		Hour:      currentDateTime.ActualTime,
+		Latitude:  "0",
 		Longitude: "0",
-		Timezone: 0,
-		Address: "l-location-unavailable",
+		Timezone:  0,
+		Address:   "l-location-unavailable",
 	}
 
 	json, err := json.Marshal(body)
@@ -159,7 +153,6 @@ func RequestClocking( user database.User, token string) ResponseGetTime  {
 
 	defer res.Body.Close()
 
-
 	return currentDateTime
 
 }
@@ -168,20 +161,18 @@ func GetClockings(user database.User, token string, initPeriod string, endPeriod
 	// validate format of initPeriod and endPeriod
 
 	initPeriodDate, errParseInitPeriod := time.Parse("2006-01-02", initPeriod)
-	
 
 	endPeriodDate, errParseEndPeriod := time.Parse("2006-01-02", endPeriod)
-	
+
 	if errParseInitPeriod != nil || errParseEndPeriod != nil {
-		fmt.Println( "❌ ",color.RedString("Error parsing period, please use format YYYY-MM-DD"))
+		fmt.Println("❌ ", color.RedString("Error parsing period, please use format YYYY-MM-DD"))
 		return nil
 	}
 
 	if initPeriodDate.After(endPeriodDate) {
-		fmt.Println( "❌ ",color.RedString("Init period is after end period"))
+		fmt.Println("❌ ", color.RedString("Init period is after end period"))
 		return nil
 	}
-
 
 	validToken := GetValidToken(user, token)
 
@@ -196,16 +187,16 @@ func GetClockings(user database.User, token string, initPeriod string, endPeriod
 		fmt.Println("Error creating request", err)
 		return nil
 	}
-	
+
 	req.Header.Add("Authorization", validToken)
-	
+
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Error sending request", err)
 		return nil
 	}
-	
+
 	defer res.Body.Close()
 
 	var response ResponseGetClockings
@@ -218,21 +209,19 @@ func GetClockings(user database.User, token string, initPeriod string, endPeriod
 	return &response
 }
 
-
-func GetBalanceSummary(user database.User, token string, initPeriod string, endPeriod string)  *ResponseGetBalanceSummary {
+func GetBalanceSummary(user database.User, token string, initPeriod string, endPeriod string) *ResponseGetBalanceSummary {
 
 	initPeriodDate, errParseInitPeriod := time.Parse("2006-01-02", initPeriod)
-	
 
 	endPeriodDate, errParseEndPeriod := time.Parse("2006-01-02", endPeriod)
-	
+
 	if errParseInitPeriod != nil || errParseEndPeriod != nil {
-		fmt.Println( "❌ ",color.RedString("Error parsing period, please use format YYYY-MM-DD"))
+		fmt.Println("❌ ", color.RedString("Error parsing period, please use format YYYY-MM-DD"))
 		return nil
 	}
 
 	if initPeriodDate.After(endPeriodDate) {
-		fmt.Println( "❌ ",color.RedString("Init period is after end period"))
+		fmt.Println("❌ ", color.RedString("Init period is after end period"))
 		return nil
 	}
 
@@ -249,7 +238,7 @@ func GetBalanceSummary(user database.User, token string, initPeriod string, endP
 		fmt.Println("Error creating request", err)
 		return nil
 	}
-	
+
 	req.Header.Add("Authorization", validToken)
 
 	client := &http.Client{}
@@ -269,4 +258,63 @@ func GetBalanceSummary(user database.User, token string, initPeriod string, endP
 	}
 
 	return &response
+}
+
+func EditClockings(user database.User, token string, date string, hour string) error {
+	newToken := GetValidToken(user, token)
+
+	dateTime, err := time.Parse("2006-01-02", date)
+
+	if err != nil {
+		return fmt.Errorf("❌ %s", color.RedString("Error parsing date, please use format YYYY-MM-DD"))
+
+	}
+
+	hourTime, err := time.ParseDuration(hour)
+	if err != nil {
+		return fmt.Errorf("❌ %s", color.RedString("Error parsing hour, please use format ex: 1h30m"))
+
+	}
+
+	clocking := EditClockingsBody{
+		Date:          dateTime.Format("2006-01-02"),
+		Hour:          hourTime.Milliseconds(),
+		Origin:        "manual",
+		ReferenceDate: dateTime.Format("2006-01-02"),
+		Timezone:      180,
+	}
+
+	request := RequestEditClockingBody{
+		Date:      time.Now().Format("2006-01-02"),
+		Justify:   "Alteração manual",
+		Reason:    "01",
+		Clockings: []EditClockingsBody{clocking},
+	}
+
+	json, err := json.Marshal(request)
+	if err != nil {
+		return fmt.Errorf("❌ %s", color.RedString("Error marshalling request body"))
+
+	}
+	req, err := http.NewRequest("POST", GetPeriodClockings, bytes.NewBuffer(json))
+	if err != nil {
+		return fmt.Errorf("❌ %s", color.RedString("Error creating request"))
+
+	}
+
+	req.Header.Add("Authorization", newToken)
+	req.Header.Add("Content-Type", "application/json")
+	client := &http.Client{}
+	res, err := client.Do(req)
+	if err != nil {
+		return fmt.Errorf("❌ %s : %+v", color.RedString("Error sending request"), err)
+
+	}
+
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK && res.StatusCode != http.StatusCreated {
+		return fmt.Errorf("❌ %s; code: %d", color.RedString("Error sending request"), res.StatusCode)
+	}
+	return nil
 }
