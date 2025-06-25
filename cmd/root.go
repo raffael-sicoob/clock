@@ -11,9 +11,9 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "clock",
-	Version: "1.0.1",
-	Short: "A clock to help you manage your time",
+	Use:     "clock",
+	Version: "1.1.0",
+	Short:   "A clock to help you manage your time",
 	Long: `Clock is a tool to help you manage your time.
 	It is a simple tool to help you track your time and
 	help you manage your time. Sync to MeuRh.`,
@@ -42,5 +42,3 @@ func init() {
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
-
-
